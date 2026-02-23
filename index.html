@@ -2,848 +2,569 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="BG 7M"/>
 <title>BG Random 7M</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* fonts loaded inline */
-
-:root {
-  --bg: #080810;
-  --surface: #10101c;
-  --card: #18182a;
-  --card2: #1e1e32;
-  --accent: #f5a623;
-  --accent2: #e8365d;
-  --green: #00e676;
-  --blue: #4fc3f7;
-  --text: #f0f0f8;
-  --muted: #5a5a7a;
-  --muted2: #8888aa;
-  --radius: 18px;
-  --font-d: 'Bebas Neue', 'Arial Narrow', Arial, sans-serif;
-  --font-b: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', sans-serif;
-}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow:hidden}
-body{font-family:var(--font-b);background:#04040a;color:var(--text);display:flex;align-items:center;justify-content:center;min-height:100vh}
-
-.phone{width:100%;max-width:390px;height:100vh;max-height:844px;background:var(--surface);border-radius:48px;overflow:hidden;display:flex;flex-direction:column;position:relative;box-shadow:0 50px 150px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.07)}
-@media(max-height:844px){.phone{border-radius:0;max-height:100vh}}
-.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:126px;height:34px;background:#000;border-radius:0 0 22px 22px;z-index:100}
-.statusbar{display:flex;justify-content:space-between;align-items:center;padding:14px 28px 4px;font-size:13px;font-weight:600;flex-shrink:0;z-index:10}
-
-.screen{display:none;flex-direction:column;flex:1;overflow:hidden}
+html,body{height:100%;background:#080810;overflow:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'Helvetica Neue',sans-serif;color:#f0f0f8;display:flex;align-items:center;justify-content:center}
+.phone{width:100%;max-width:390px;height:100vh;background:#10101c;display:flex;flex-direction:column;overflow:hidden}
+.screen{display:none;flex-direction:column;flex:1;overflow-y:auto}
 .screen.active{display:flex}
-
-/* ── HOME ── */
-#home{background:radial-gradient(ellipse at 50% 20%,#1e0e35 0%,#080810 60%);padding:16px 24px 28px;overflow-y:auto}
-.home-header{text-align:center;padding:12px 0 18px}
-.app-title{font-family:var(--font-d);font-size:52px;letter-spacing:4px;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
-.app-subtitle{font-size:11px;color:var(--muted);letter-spacing:5px;text-transform:uppercase;margin-top:6px}
-
-.mode-toggle{display:flex;background:var(--card);border-radius:50px;padding:4px;margin-bottom:18px;border:1px solid rgba(255,255,255,.06)}
-.mode-btn{flex:1;padding:10px;border:none;border-radius:46px;font-family:var(--font-b);font-size:13px;font-weight:600;cursor:pointer;transition:all .25s;color:var(--muted2);background:transparent}
-.mode-btn.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 4px 16px rgba(232,54,93,.35)}
-
-.stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px}
-.stat-card{background:var(--card);border-radius:14px;padding:14px 10px;text-align:center;border:1px solid rgba(255,255,255,.05)}
-.stat-val{font-family:var(--font-d);font-size:26px;color:var(--accent)}
-.stat-label{font-size:10px;color:var(--muted);margin-top:2px;letter-spacing:1px;text-transform:uppercase}
-
-.pool-label{font-size:11px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px}
-.chips-wrap{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:20px}
-.chip{background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:5px 11px;font-size:11px;color:var(--muted2)}
-.chip.db{border-color:rgba(79,195,247,.25);color:var(--blue)}
-
-.btn-start{width:100%;padding:20px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:var(--radius);font-family:var(--font-d);font-size:28px;letter-spacing:4px;color:#fff;cursor:pointer;transition:transform .15s;box-shadow:0 10px 40px rgba(232,54,93,.45);flex-shrink:0}
-.btn-start:active{transform:scale(.97)}
-button{cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:rgba(0,0,0,0);}
-
-/* ── WORKOUT ── */
-#workout{background:var(--bg)}
-.workout-topbar{display:flex;justify-content:space-between;align-items:center;padding:10px 22px 8px;flex-shrink:0}
-.session-label{font-size:11px;color:var(--muted);letter-spacing:3px;text-transform:uppercase}
-.btn-quit{background:rgba(255,255,255,.07);border:none;color:var(--muted2);padding:7px 15px;border-radius:20px;font-family:var(--font-b);font-size:12px;cursor:pointer}
-
-.overall-progress{padding:0 22px 8px;flex-shrink:0}
-.overall-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:6px}
-.progress-track{width:100%;height:5px;background:var(--card);border-radius:3px;overflow:hidden}
-.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:3px;transition:width 1s linear}
-
-.step-dots{display:flex;gap:4px;padding:0 22px 10px;flex-shrink:0}
-.sdot{flex:1;height:4px;border-radius:2px;background:var(--card);transition:background .4s}
-.sdot.done{background:var(--accent2)}
-.sdot.active{background:var(--accent)}
-
-.ex-image-wrap{margin:0 22px 10px;border-radius:16px;overflow:hidden;height:130px;background:var(--card);position:relative;flex-shrink:0;display:flex;align-items:center;justify-content:center}
-.ex-emoji-bg{font-size:72px;line-height:1;transition:opacity .3s}
-.equipment-tag{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);padding:4px 10px;border-radius:20px;font-size:11px;color:var(--blue);border:1px solid rgba(79,195,247,.3)}
-
-.phase-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin:0 22px 6px;flex-shrink:0;width:fit-content}
-.phase-badge.work{background:rgba(245,166,35,.15);color:var(--accent);border:1px solid rgba(245,166,35,.3)}
-.phase-badge.rest{background:rgba(0,230,118,.1);color:var(--green);border:1px solid rgba(0,230,118,.25)}
-
-.timer-center{display:flex;flex-direction:column;align-items:center;padding:0 22px 4px;flex-shrink:0}
-.big-timer{font-family:var(--font-d);font-size:90px;line-height:1;letter-spacing:-2px;color:var(--text);transition:color .3s}
-.big-timer.warning{color:var(--accent2)}
-.ex-current-name{font-family:var(--font-d);font-size:26px;letter-spacing:1px;text-align:center;line-height:1.15;color:var(--text);margin-top:2px}
-
-.form-tip-bar{margin:8px 22px;background:var(--card2);border-radius:12px;border-left:3px solid var(--accent);padding:9px 12px;flex-shrink:0;display:none}
-.form-tip-bar.visible{display:block}
-.tip-header{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:3px}
-.tip-text{font-size:12px;color:var(--muted2);line-height:1.5}
-
-.next-ex{margin:6px 22px 8px;background:var(--card);border-radius:14px;padding:11px 14px;display:flex;align-items:center;gap:12px;flex-shrink:0;border:1px solid rgba(255,255,255,.05)}
-.next-emoji{font-size:28px}
-.next-label{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:2px}
-.next-name{font-size:14px;font-weight:600;color:var(--text)}
-.next-duration{font-size:11px;color:var(--muted2);margin-top:1px}
-
-.controls{display:flex;gap:12px;padding:0 22px 16px;flex-shrink:0}
-.btn-pause,.btn-tip{border:none;border-radius:14px;font-family:var(--font-b);font-weight:600;font-size:14px;cursor:pointer;transition:transform .15s}
-.btn-pause{flex:2;padding:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 6px 24px rgba(232,54,93,.3)}
-.btn-tip{flex:1;padding:16px;background:var(--card);color:var(--muted2);border:1px solid rgba(255,255,255,.07)}
-.btn-pause:active,.btn-tip:active{transform:scale(.96)}
-
-/* ── DONE ── */
-#done{background:radial-gradient(ellipse at 50% 30%,#0e2a18 0%,#080810 60%);align-items:center;justify-content:center;padding:32px 28px;gap:22px}
-.done-icon{font-size:80px;animation:pop .5s ease}
-@keyframes pop{0%{transform:scale(0)}80%{transform:scale(1.15)}100%{transform:scale(1)}}
-.done-title{font-family:var(--font-d);font-size:52px;letter-spacing:3px;background:linear-gradient(135deg,var(--green),#00bcd4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-align:center}
-.done-sub{font-size:14px;color:var(--muted2);text-align:center;line-height:1.6}
-.done-stats{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%}
-.done-stat{background:var(--card);border-radius:16px;padding:18px;text-align:center;border:1px solid rgba(255,255,255,.06)}
-.done-stat-val{font-family:var(--font-d);font-size:36px;color:var(--green)}
-.done-stat-label{font-size:11px;color:var(--muted);margin-top:4px;letter-spacing:1px;text-transform:uppercase}
-.btn-again{width:100%;padding:20px;background:linear-gradient(135deg,var(--green),#00bcd4);border:none;border-radius:var(--radius);font-family:var(--font-d);font-size:26px;letter-spacing:3px;color:#000;cursor:pointer;box-shadow:0 8px 32px rgba(0,230,118,.3)}
-.btn-home{background:none;border:none;color:var(--muted2);font-family:var(--font-b);font-size:14px;cursor:pointer;text-decoration:underline}
+#home{background:radial-gradient(ellipse at 50% 20%,#1e0e35,#080810);padding:20px;gap:14px}
+.app-title{font-size:42px;font-weight:900;letter-spacing:3px;text-align:center;background:linear-gradient(135deg,#f5a623,#e8365d);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-top:30px}
+.app-sub{text-align:center;font-size:11px;color:#5a5a7a;letter-spacing:4px;text-transform:uppercase}
+.toggle-row{display:flex;background:#18182a;border-radius:50px;padding:4px;border:1px solid rgba(255,255,255,.06)}
+.tog{flex:1;padding:11px 8px;border:none;border-radius:46px;font-size:13px;font-weight:600;color:#8888aa;background:transparent;cursor:pointer;touch-action:manipulation}
+.tog.on{background:linear-gradient(135deg,#f5a623,#e8365d);color:#fff}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.scard{background:#18182a;border-radius:14px;padding:14px 10px;text-align:center;border:1px solid rgba(255,255,255,.05)}
+.sval{font-size:28px;font-weight:900;color:#f5a623}
+.slbl{font-size:10px;color:#5a5a7a;margin-top:2px;letter-spacing:1px;text-transform:uppercase}
+.plbl{font-size:11px;color:#5a5a7a;letter-spacing:3px;text-transform:uppercase}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{background:#18182a;border:1px solid rgba(255,255,255,.06);border-radius:20px;padding:5px 11px;font-size:11px;color:#8888aa}
+.chip.db{border-color:rgba(79,195,247,.3);color:#4fc3f7}
+.chip.cl{border-color:rgba(245,166,35,.3);color:#f5a623}
+.vrow{display:flex;gap:8px;align-items:center}
+select{flex:1;background:#18182a;color:#f0f0f8;border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 12px;font-size:13px}
+.vtest{background:#18182a;border:1px solid rgba(255,255,255,.1);color:#8888aa;border-radius:10px;padding:10px 14px;font-size:13px;cursor:pointer;touch-action:manipulation;white-space:nowrap}
+.btn-main{width:100%;padding:20px;background:linear-gradient(135deg,#f5a623,#e8365d);border:none;border-radius:18px;font-size:24px;font-weight:900;letter-spacing:3px;color:#fff;cursor:pointer;touch-action:manipulation;box-shadow:0 10px 40px rgba(232,54,93,.45)}
+#workout{background:#080810}
+.wtop{display:flex;justify-content:space-between;align-items:center;padding:12px 20px 8px;flex-shrink:0}
+.wlbl{font-size:11px;color:#5a5a7a;letter-spacing:3px;text-transform:uppercase}
+.qbtn{background:rgba(255,255,255,.08);border:none;color:#8888aa;padding:8px 16px;border-radius:20px;font-size:12px;cursor:pointer;touch-action:manipulation}
+.pbar-wrap{padding:0 20px 8px;flex-shrink:0}
+.pmeta{display:flex;justify-content:space-between;font-size:11px;color:#5a5a7a;margin-bottom:6px}
+.ptrack{width:100%;height:5px;background:#18182a;border-radius:3px;overflow:hidden}
+.pfill{height:100%;background:linear-gradient(90deg,#f5a623,#e8365d);border-radius:3px;transition:width 1s linear}
+.dots{display:flex;gap:4px;padding:0 20px 10px;flex-shrink:0}
+.dot{flex:1;height:4px;border-radius:2px;background:#18182a;transition:background .3s}
+.dot.done{background:#e8365d}
+.dot.now{background:#f5a623}
+.eximg{margin:0 20px 10px;border-radius:16px;height:120px;background:#18182a;display:flex;align-items:center;justify-content:center;font-size:56px;flex-shrink:0;position:relative}
+.eqtag{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.7);padding:3px 10px;border-radius:20px;font-size:11px;color:#4fc3f7;border:1px solid rgba(79,195,247,.3)}
+.pbadge{display:inline-flex;align-items:center;gap:6px;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin:0 20px 6px;width:fit-content;flex-shrink:0}
+.pbadge.work{background:rgba(245,166,35,.15);color:#f5a623;border:1px solid rgba(245,166,35,.3)}
+.pbadge.rest{background:rgba(0,230,118,.1);color:#00e676;border:1px solid rgba(0,230,118,.25)}
+.tarea{display:flex;flex-direction:column;align-items:center;flex-shrink:0;padding:0 20px 4px}
+.bignum{font-size:96px;font-weight:900;line-height:1;letter-spacing:-4px;color:#f0f0f8;transition:color .3s}
+.bignum.red{color:#e8365d}
+.exname{font-size:26px;font-weight:800;text-align:center;line-height:1.2;margin-top:4px}
+.tipbar{margin:8px 20px;background:#1e1e32;border-radius:12px;border-left:3px solid #f5a623;padding:10px 12px;flex-shrink:0;display:none}
+.tipbar.show{display:block}
+.tiphdr{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#f5a623;margin-bottom:3px}
+.tiptxt{font-size:12px;color:#8888aa;line-height:1.5}
+.nextbox{margin:8px 20px;background:#18182a;border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px;flex-shrink:0;border:1px solid rgba(255,255,255,.05)}
+.nextico{font-size:28px}
+.nextlbl{font-size:10px;color:#5a5a7a;letter-spacing:2px;text-transform:uppercase;margin-bottom:2px}
+.nextname{font-size:14px;font-weight:600}
+.nextdur{font-size:11px;color:#8888aa;margin-top:1px}
+.ctrls{display:flex;gap:12px;padding:8px 20px 20px;flex-shrink:0}
+.pbtn{flex:2;padding:16px;background:linear-gradient(135deg,#f5a623,#e8365d);border:none;border-radius:14px;font-size:15px;font-weight:700;color:#fff;cursor:pointer;touch-action:manipulation}
+.tbtn{flex:1;padding:16px;background:#18182a;border:1px solid rgba(255,255,255,.08);border-radius:14px;font-size:15px;font-weight:700;color:#8888aa;cursor:pointer;touch-action:manipulation}
+#done{background:radial-gradient(ellipse at 50% 30%,#0e2a18,#080810);align-items:center;justify-content:center;gap:20px;padding:32px 24px}
+.done-ico{font-size:80px}
+.done-title{font-size:48px;font-weight:900;letter-spacing:3px;background:linear-gradient(135deg,#00e676,#00bcd4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.done-sub{font-size:14px;color:#8888aa;text-align:center;line-height:1.6}
+.done-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%}
+.dstat{background:#18182a;border-radius:16px;padding:18px;text-align:center;border:1px solid rgba(255,255,255,.06)}
+.dsval{font-size:36px;font-weight:900;color:#00e676}
+.dslbl{font-size:11px;color:#5a5a7a;margin-top:4px;letter-spacing:1px;text-transform:uppercase}
+.btn-again{width:100%;padding:20px;background:linear-gradient(135deg,#00e676,#00bcd4);border:none;border-radius:18px;font-size:22px;font-weight:900;letter-spacing:3px;color:#000;cursor:pointer;touch-action:manipulation}
+.btn-back{background:none;border:none;color:#8888aa;font-size:14px;cursor:pointer;touch-action:manipulation;text-decoration:underline}
 </style>
 </head>
 <body>
 <div class="phone">
-  <div class="notch"></div>
-  <div class="statusbar">
-    <span id="clock">9:41</span>
-    <span style="font-size:16px;letter-spacing:1px">●●●</span>
-  </div>
 
-  <!-- ══ HOME ══ -->
   <div class="screen active" id="home">
-    <div class="home-header">
-      <div class="app-title">BG RANDOM 7M</div>
-      <div class="app-subtitle">Random · Effective · Fast</div>
+    <div class="app-title">BG RANDOM 7M</div>
+    <div class="app-sub">Random · Effective · Fast</div>
+    <div class="toggle-row">
+      <button class="tog on" id="btn-bw">Bodyweight</button>
+      <button class="tog" id="btn-db">With Dumbbells</button>
     </div>
-    <div class="mode-toggle">
-      <button class="mode-btn active" id="btn-bw">🏃 Bodyweight</button>
-      <button class="mode-btn" id="btn-db">🏋️ With Dumbbells</button>
-    </div>    <!-- Session Mode Toggle -->
-    <div class="mode-toggle" style="margin-bottom:14px">
-      <button class="mode-btn active" id="btn-random">🎲 Random 12</button>
-      <button class="mode-btn" id="btn-classic">📋 Classic Order</button>
+    <div class="toggle-row">
+      <button class="tog on" id="btn-rand">Random 12</button>
+      <button class="tog" id="btn-classic">Classic Order</button>
     </div>
-
-    <div class="stats-row">
-      <div class="stat-card"><div class="stat-val" id="stat-exercises">12</div><div class="stat-label">Exercises</div></div>
-      <div class="stat-card"><div class="stat-val">7</div><div class="stat-label">Minutes</div></div>
-      <div class="stat-card"><div class="stat-val" id="pool-count">18</div><div class="stat-label">In Pool</div></div>
+    <div class="stats">
+      <div class="scard"><div class="sval" id="s-ex">12</div><div class="slbl">Exercises</div></div>
+      <div class="scard"><div class="sval">7</div><div class="slbl">Minutes</div></div>
+      <div class="scard"><div class="sval" id="s-pool">18</div><div class="slbl">In Pool</div></div>
     </div>
-    <div class="pool-label" id="pool-label">Exercise pool</div>
-    <div class="chips-wrap" id="chips-wrap"></div>
-    <div style="flex:1"></div>
-
-    <!-- Voice picker -->
-    <div style="margin-bottom:14px">
-      <div class="pool-label" style="margin-bottom:8px">🎙️ Voice</div>
-      <div style="display:flex;gap:8px;align-items:center">
-        <select id="voice-select"
-          style="flex:1;background:var(--card);color:var(--text);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:10px 12px;font-family:var(--font-b);font-size:13px;appearance:none;cursor:pointer">
-          <option value="">Loading voices…</option>
-        </select>
-        <button id="test-voice-btn"
-          style="background:var(--card);border:1px solid rgba(255,255,255,.08);color:var(--muted2);border-radius:10px;padding:10px 14px;font-family:var(--font-b);font-size:13px;cursor:pointer;white-space:nowrap">
-          ▶ Test
-        </button>
+    <div class="plbl" id="pool-lbl">Exercise Pool</div>
+    <div class="chips" id="chips"></div>
+    <div>
+      <div class="plbl" style="margin-bottom:8px">Voice</div>
+      <div class="vrow">
+        <select id="vsel"></select>
+        <button class="vtest" id="btn-vtest">Test Voice</button>
       </div>
     </div>
-
-    <button class="btn-start" id="btn-start">START SESSION</button>
+    <button class="btn-main" id="btn-start">START SESSION</button>
   </div>
 
-  <!-- ══ WORKOUT ══ -->
   <div class="screen" id="workout">
-    <div class="workout-topbar">
-      <div class="session-label">Session Active</div>
-      <button class="btn-quit" id="btn-quit">✕ Quit</button>
+    <div class="wtop">
+      <div class="wlbl" id="wlbl">Session</div>
+      <button class="qbtn" id="btn-quit">Quit</button>
     </div>
-    <div class="overall-progress">
-      <div class="overall-meta">
-        <span id="ex-counter">Exercise 1 of 12</span>
-        <span id="time-remaining-label">7:00 left</span>
-      </div>
-      <div class="progress-track"><div class="progress-fill" id="overall-fill" style="width:0%"></div></div>
+    <div class="pbar-wrap">
+      <div class="pmeta"><span id="exctr">Exercise 1 of 12</span><span id="timeleft">7:00 left</span></div>
+      <div class="ptrack"><div class="pfill" id="pfill" style="width:0%"></div></div>
     </div>
-    <div class="step-dots" id="step-dots"></div>
-    <div class="ex-image-wrap" id="ex-image-wrap">
-      <div class="ex-emoji-bg" id="ex-emoji-bg">🏃</div>
-      <div class="equipment-tag" id="equipment-tag" style="display:none">🏋️ Dumbbells</div>
+    <div class="dots" id="dots"></div>
+    <div class="eximg" id="eximg">
+      <span id="exemoji"></span>
+      <span class="eqtag" id="eqtag" style="display:none">Dumbbells</span>
     </div>
-    <div class="phase-badge work" id="phase-badge">● WORK</div>
-    <div class="timer-center">
-      <div class="big-timer" id="big-timer">30</div>
-      <div class="ex-current-name" id="ex-current-name">Jumping Jacks</div>
+    <div class="pbadge work" id="pbadge">WORK</div>
+    <div class="tarea">
+      <div class="bignum" id="bignum">30</div>
+      <div class="exname" id="exname">Jumping Jacks</div>
     </div>
-    <div class="form-tip-bar visible" id="form-tip-bar">
-      <div class="tip-header">💡 Form Tip</div>
-      <div class="tip-text" id="form-tip-text">Keep your core tight throughout.</div>
+    <div class="tipbar" id="tipbar">
+      <div class="tiphdr">Form Tip</div>
+      <div class="tiptxt" id="tiptxt"></div>
     </div>
-    <div class="next-ex" id="next-ex-box">
-      <div class="next-emoji" id="next-emoji">💪</div>
+    <div class="nextbox" id="nextbox">
+      <div class="nextico" id="nextico"></div>
       <div>
-        <div class="next-label">Up Next</div>
-        <div class="next-name" id="next-name">Wall Sit</div>
-        <div class="next-duration" id="next-duration">30 sec</div>
+        <div class="nextlbl">Up Next</div>
+        <div class="nextname" id="nextname">Wall Sit</div>
+        <div class="nextdur" id="nextdur">30 sec</div>
       </div>
     </div>
-    <div class="controls">
-      <button class="btn-pause" id="btn-pause">⏸ Pause</button>
-      <button class="btn-tip" id="btn-tip">💡 Tip</button>
+    <div class="ctrls">
+      <button class="pbtn" id="btn-pause">Pause</button>
+      <button class="tbtn" id="btn-tip">Form Tip</button>
     </div>
   </div>
 
-  <!-- ══ DONE ══ -->
   <div class="screen" id="done">
-    <div class="done-icon">🏆</div>
+    <div class="done-ico">DONE!</div>
     <div class="done-title">CRUSHED IT!</div>
-    <div class="done-sub">You completed your 7-minute session.<br>That's what consistency looks like.</div>
-    <div class="done-stats">
-      <div class="done-stat"><div class="done-stat-val">12</div><div class="done-stat-label">Exercises</div></div>
-      <div class="done-stat"><div class="done-stat-val" id="done-cal">~65</div><div class="done-stat-label">Cal Est.</div></div>
-      <div class="done-stat"><div class="done-stat-val">7:00</div><div class="done-stat-label">Duration</div></div>
-      <div class="done-stat"><div class="done-stat-val" id="done-sets">12</div><div class="done-stat-label">Sets Done</div></div>
+    <div class="done-sub">Seven minutes done.<br>That is consistency.</div>
+    <div class="done-grid">
+      <div class="dstat"><div class="dsval">12</div><div class="dslbl">Exercises</div></div>
+      <div class="dstat"><div class="dsval" id="d-cal">65</div><div class="dslbl">Cal Est.</div></div>
+      <div class="dstat"><div class="dsval">7:00</div><div class="dslbl">Duration</div></div>
+      <div class="dstat"><div class="dsval" id="d-sets">12</div><div class="dslbl">Sets Done</div></div>
     </div>
     <button class="btn-again" id="btn-again">GO AGAIN</button>
-    <button class="btn-home" id="btn-home">← Back to Home</button>
+    <button class="btn-back" id="btn-back">Back to Home</button>
   </div>
+
 </div>
-
 <script>
-// ══════════════════════════
-// IOS PWA FIXES
-// ══════════════════════════
-// Unlock Web Speech API on first touch — required for iOS standalone/PWA mode
-document.addEventListener('touchstart', function unlockAudio() {
-  const u = new SpeechSynthesisUtterance('');
-  u.volume = 0;
-  window.speechSynthesis.speak(u);
-  window.speechSynthesis.cancel();
-  document.removeEventListener('touchstart', unlockAudio);
-}, { once: true });
-
-// ══════════════════════════════════
-// EXERCISE DATABASE
-// ══════════════════════════════════
-const BW = [
-  {id:'jj',name:'Jumping Jacks',emoji:'🙌',dur:30,db:false,muscle:'Full body cardio',
-   tip:'Land softly with knees slightly bent. Keep your core tight throughout. Arms swing fully overhead — don\'t cut the range short.'},
-  {id:'ws',name:'Wall Sit',emoji:'🪑',dur:30,db:false,muscle:'Lower body endurance',
-   tip:'Back flat to the wall, thighs parallel to the floor. Don\'t let knees drift past toes. Press through your whole foot — don\'t tip onto toes.'},
-  {id:'pu',name:'Push-Ups',emoji:'💪',dur:30,db:false,muscle:'Upper body strength',
-   tip:'Body straight from head to heels. Lower until chest is just above the floor. Elbows track at 45° from your torso — not flared wide.'},
-  {id:'pu-st',name:'Push-Up + Shoulder Taps',emoji:'👋',dur:30,db:false,muscle:'Upper body / core stability',
-   tip:'After each push-up, tap the opposite shoulder while resisting hip rotation. Brace your core hard — the narrower your feet, the harder the anti-rotation challenge.'},
-  {id:'pu-rot',name:'Push-Up with Rotation',emoji:'🔄',dur:30,db:false,muscle:'Upper body / core rotation',
-   tip:'After pressing up, rotate your torso and raise one arm straight to the sky. Stack your hips — don\'t let them sag. Alternate sides each rep for balanced oblique work.'},
-  {id:'cr',name:'Abdominal Crunches',emoji:'🔥',dur:30,db:false,muscle:'Core strength',
-   tip:'Hands lightly behind head — don\'t yank your neck. Exhale forcefully as you crunch. Feel the squeeze at the top for 1 second before slowly lowering.'},
-  {id:'su',name:'Step-Ups',emoji:'🪜',dur:30,db:false,muscle:'Total body / cardio',
-   tip:'Drive through the heel of your elevated foot to engage glutes. Keep your chest up and core braced. Alternate legs evenly — don\'t favour one side.'},
-  {id:'sq',name:'Squats',emoji:'🏋️',dur:30,db:false,muscle:'Lower body strength',
-   tip:'Feet shoulder-width, toes slightly out. Sit back and down — weight in heels. Keep your chest tall and knees tracking in line with your toes throughout.'},
-  {id:'td',name:'Tricep Dips',emoji:'🛋️',dur:30,db:false,muscle:'Upper body (chair)',
-   tip:'Fingers point forward. Keep your back close to the chair throughout. Lower until elbows reach 90° — don\'t shrug your shoulders toward your ears.'},
-  {id:'pl',name:'Plank',emoji:'🧱',dur:30,db:false,muscle:'Core stability',
-   tip:'Elbows under shoulders. Push the floor away actively. Squeeze glutes and abs simultaneously — hips should neither rise nor sag. Breathe steadily.'},
-  {id:'hk',name:'High Knees',emoji:'🏃',dur:30,db:false,muscle:'Cardio',
-   tip:'Drive knees up to hip height with each stride. Pump arms opposite to legs. Stay on the balls of your feet — no heavy heel strikes.'},
-  {id:'lu',name:'Lunges',emoji:'🦵',dur:30,db:false,muscle:'Lower body strength',
-   tip:'Step forward so your front knee stays directly above your ankle. Drop the back knee toward the floor without touching. Torso stays upright — don\'t lean forward.'},
-  {id:'sp',name:'Side Plank',emoji:'↔️',dur:30,db:false,muscle:'Core / obliques',
-   tip:'Stack or stagger feet. Drive your bottom hip up into a straight line from head to feet — no sagging. Stack top hand on hip or reach to the ceiling.'},
-  {id:'bp',name:'Burpees',emoji:'🌊',dur:30,db:false,muscle:'Full body / cardio',
-   tip:'Flow: squat → kick feet back → optional push-up → jump feet forward → explosive jump. Land with soft, bent knees. Move at your own pace — quality over speed.'},
-  {id:'pal',name:'Plank with Arm Lift',emoji:'🦾',dur:30,db:false,muscle:'Core / anti-rotation',
-   tip:'High plank position. Lift one arm straight forward — hold 1–2 seconds before switching. Brace your core aggressively to prevent hip rocking. Move slowly.'},
-  {id:'rl',name:'Reverse Lunge + Rotation',emoji:'🌀',dur:30,db:false,muscle:'Lower body / core rotation',
-   tip:'Step one foot behind, drop into the lunge. Plant the hand on the inside of your front knee, then open your chest and point the other arm skyward. Control the return.'},
-  {id:'lpbl',name:'Lateral Pillar Bridge — Left',emoji:'↙️',dur:30,db:false,muscle:'Core / obliques (left)',
-   tip:'Lie on your left side, elbow under shoulder. Lift hips into a straight line. Squeeze glutes. Point right arm to the ceiling. Breathe — don\'t hold it.'},
-  {id:'lpbr',name:'Lateral Pillar Bridge — Right',emoji:'↗️',dur:30,db:false,muscle:'Core / obliques (right)',
-   tip:'Mirror of left side. Drive the bottom hip up actively — don\'t just hold it. Keep your body in a rigid plank line from ears to heels. Point top arm skyward.'},
+var BW = [
+  {id:"jj",  name:"Jumping Jacks",         ico:"[JJ]",  d:30, db:false, tip:"Land softly with knees bent. Keep core tight. Arms swing fully overhead."},
+  {id:"ws",  name:"Wall Sit",               ico:"[WS]",  d:30, db:false, tip:"Back flat to wall, thighs parallel to floor. Knees must not go past toes."},
+  {id:"pu",  name:"Push-Ups",               ico:"[PU]",  d:30, db:false, tip:"Body straight head to heels. Lower chest to floor. Elbows at 45 degrees."},
+  {id:"pust",name:"Push-Up Shoulder Taps",  ico:"[PS]",  d:30, db:false, tip:"After each push-up tap opposite shoulder. Resist rotating hips. Brace core."},
+  {id:"pur", name:"Push-Up with Rotation",  ico:"[PR]",  d:30, db:false, tip:"After pressing up rotate torso and raise one arm skyward. Alternate sides."},
+  {id:"cr",  name:"Abdominal Crunches",     ico:"[CR]",  d:30, db:false, tip:"Hands behind head lightly. Exhale as you crunch. Squeeze at top."},
+  {id:"su",  name:"Step-Ups",               ico:"[SU]",  d:30, db:false, tip:"Drive through heel of elevated foot. Chest up, core braced. Alternate legs."},
+  {id:"sq",  name:"Squats",                 ico:"[SQ]",  d:30, db:false, tip:"Feet shoulder-width, toes out. Sit back and down. Chest tall throughout."},
+  {id:"td",  name:"Tricep Dips",            ico:"[TD]",  d:30, db:false, tip:"Fingers point forward. Back close to chair. Lower to 90 degrees."},
+  {id:"pl",  name:"Plank",                  ico:"[PL]",  d:30, db:false, tip:"Elbows under shoulders. Push floor away. Squeeze glutes and abs together."},
+  {id:"hk",  name:"High Knees",             ico:"[HK]",  d:30, db:false, tip:"Drive knees to hip height. Pump arms opposite legs. Stay on balls of feet."},
+  {id:"lu",  name:"Lunges",                 ico:"[LU]",  d:30, db:false, tip:"Front knee above ankle. Drop back knee toward floor. Torso stays upright."},
+  {id:"sp",  name:"Side Plank",             ico:"[SP]",  d:30, db:false, tip:"Drive bottom hip up in a straight line. Stack top hand on hip or reach up."},
+  {id:"bp",  name:"Burpees",                ico:"[BP]",  d:30, db:false, tip:"Squat, kick feet back, optional push-up, jump forward, jump up. Land soft."},
+  {id:"pal", name:"Plank with Arm Lift",    ico:"[PA]",  d:30, db:false, tip:"High plank. Lift one arm forward and hold briefly before switching sides."},
+  {id:"rl",  name:"Reverse Lunge Rotation", ico:"[RL]",  d:30, db:false, tip:"Step back into lunge. Plant hand inside front knee, open chest, point arm up."},
+  {id:"lpbl",name:"Lateral Bridge Left",    ico:"[LL]",  d:30, db:false, tip:"Left side down, elbow under shoulder. Lift hips straight. Right arm up."},
+  {id:"lpbr",name:"Lateral Bridge Right",   ico:"[LR]",  d:30, db:false, tip:"Right side down, elbow under shoulder. Drive bottom hip up. Left arm up."}
 ];
-
-const DB = [
-  {id:'purb',name:'Push-Up to Row to Burpee',emoji:'🏋️',dur:60,db:true,muscle:'Full body (dumbbells)',
-   tip:'Use hex dumbbells for stability. After push-up, row each dumbbell to hip level — don\'t over-rotate. Then jump feet forward, release dumbbells, and jump explosively. Land soft.'},
-  {id:'sldl-l',name:'Single-Leg RDL Curl Press — Left',emoji:'🦩',dur:60,db:true,muscle:'Full body — left balance',
-   tip:'Hinge from the hip — not the waist — keeping a flat back. Your torso and back leg form a T. Return upright, curl the dumbbells, then press them overhead. Breathe steadily.'},
-  {id:'sldl-r',name:'Single-Leg RDL Curl Press — Right',emoji:'🦅',dur:60,db:true,muscle:'Full body — right balance',
-   tip:'Same as left: focus on a neutral spine throughout the hinge. Avoid twisting your hips toward the lifted leg. Move deliberately — controlling balance IS the workout.'},
-  {id:'llte',name:'Lateral Lunge to Tricep Extension',emoji:'🎯',dur:60,db:true,muscle:'Lower body / triceps',
-   tip:'Take a wide lateral step — lunging knee stays behind toes, straight leg truly straight. Return upright before pressing dumbbells overhead with elbows close to ears.'},
-  {id:'bor',name:'Bent-Over Row',emoji:'🚣',dur:60,db:true,muscle:'Back / biceps',
-   tip:'Hinge to 45°, soft knees, flat back. Pull each dumbbell to your lower ribcage alternately. Squeeze the shoulder blade at the top. Never round your lower back.'},
+var DB = [
+  {id:"purb", name:"Push-Up Row Burpee",       ico:"[RB]", d:60, db:true, tip:"Use hex dumbbells. Push-up, row each to hip, jump feet forward, jump up."},
+  {id:"sldll",name:"RDL Curl Press Left",       ico:"[DL]", d:60, db:true, tip:"Hinge from hip with flat back, balance on left leg. Curl then press overhead."},
+  {id:"sldlr",name:"RDL Curl Press Right",      ico:"[DR]", d:60, db:true, tip:"Balance on right leg. Keep neutral spine throughout. Controlling balance is the goal."},
+  {id:"llte", name:"Lateral Lunge Tricep Ext",  ico:"[LT]", d:60, db:true, tip:"Wide lateral step, lunging knee behind toes. Return then press dumbbells overhead."},
+  {id:"bor",  name:"Bent-Over Row",             ico:"[BR]", d:60, db:true, tip:"Hinge 45 degrees, soft knees, flat back. Pull each dumbbell to lower ribcage."}
 ];
+var CLASSIC = ["jj","ws","pu","cr","su","sq","td","pl","hk","lu","pur","sp"];
 
-// ══════════════════════════════════
-// STATE
-// ══════════════════════════════════
-let mode = 'bodyweight';
-let sessionMode = 'random'; // 'random' | 'classic'
-let session = [];       // 12 exercises for this session
-let idx = 0;            // current exercise index
-let phase = 'work';     // 'work' | 'rest'
-let timeLeft = 0;
-let elapsed = 0;
-let totalTime = 0;
-let timer = null;
-let paused = false;
-let tipOpen = true;
-let cdSpoken = false;   // 3-sec countdown spoken flag
+var SY = window.speechSynthesis;
+var voices = [];
+var cv = null;
+var PREF = ["Samantha","Karen","Moira","Tessa","Fiona","Victoria","Allison","Ava",
+            "Microsoft Aria Online","Microsoft Aria","Microsoft Jenny Online","Microsoft Jenny",
+            "Google US English","Google UK English Female"];
 
-// ══════════════════════════════════
-// SPEECH — Natural voice system
-// ══════════════════════════════════
-const synth = window.speechSynthesis;
-let voices = [];
-let chosenVoice = null;
-
-// Priority-ranked female neural/natural voice names across platforms
-const PREFERRED_VOICES = [
-  // macOS / iOS (very natural)
-  'Samantha', 'Karen', 'Moira', 'Tessa', 'Fiona', 'Veena',
-  'Victoria', 'Allison', 'Ava', 'Susan',
-  // Windows neural voices
-  'Microsoft Aria Online', 'Microsoft Aria', 'Microsoft Jenny Online',
-  'Microsoft Jenny', 'Microsoft Ana Online', 'Microsoft Ana',
-  'Microsoft Zira', 'Microsoft Eva',
-  // Android / Chrome
-  'Google US English', 'Google UK English Female',
-];
-
-function loadVoices() {
-  voices = synth.getVoices();
+function loadV() {
+  voices = SY.getVoices();
   if (!voices.length) return;
-
-  // Try preferred list first (exact match)
-  for (const name of PREFERRED_VOICES) {
-    const v = voices.find(v => v.name === name);
-    if (v) { chosenVoice = v; break; }
+  for (var i = 0; i < PREF.length; i++) {
+    var v = voices.filter(function(x){ return x.name === PREF[i]; })[0];
+    if (v) { cv = v; break; }
   }
-  // Fallback: partial match on known natural names
-  if (!chosenVoice) {
-    chosenVoice = voices.find(v =>
-      /aria|jenny|samantha|karen|moira|tessa|fiona|allison|ava|zira|eva|google.*female|google.*english/i.test(v.name)
-      && v.lang.startsWith('en')
-    );
-  }
-  // Last resort: any English voice
-  if (!chosenVoice) {
-    chosenVoice = voices.find(v => v.lang && v.lang.startsWith('en'));
-  }
+  if (!cv) cv = voices.filter(function(v){ return v.lang && v.lang.indexOf("en") === 0; })[0];
+}
+SY.addEventListener("voiceschanged", function(){ loadV(); fillVSel(); });
+loadV();
+
+function say(txt, rate, pitch) {
+  try {
+    SY.cancel();
+    var u = new SpeechSynthesisUtterance(txt);
+    u.rate = rate || 0.88;
+    u.pitch = pitch || 1.0;
+    u.volume = 1.0;
+    if (!voices.length) loadV();
+    if (cv) u.voice = cv;
+    SY.speak(u);
+  } catch(e) {}
+}
+function sayLater(txt, ms) {
+  setTimeout(function(){
+    try {
+      var u = new SpeechSynthesisUtterance(txt);
+      u.rate = 0.82; u.pitch = 1.0; u.volume = 1.0;
+      if (cv) u.voice = cv;
+      SY.speak(u);
+    } catch(e) {}
+  }, ms);
 }
 
-synth.addEventListener('voiceschanged', loadVoices);
-loadVoices();
-
-// Natural phrasing helpers — add commas/ellipses for breath pauses
-function naturalise(text) {
-  return text
-    .replace(/\. ([A-Z])/g, '... $1')   // longer pause between sentences
-    .replace(/Up next:/gi, 'Up next,')
-    .replace(/Get ready for/gi, 'Get ready for')
-    .replace(/\bGo!\b/g, 'Go!')
-    .trim();
-}
-
-function speak(text, rate=0.88, pitch=1.0, vol=1.0) {
-  synth.cancel();
-  if (!voices.length) loadVoices();
-  const u = new SpeechSynthesisUtterance(naturalise(text));
-  u.rate = rate;
-  u.pitch = pitch;
-  u.volume = vol;
-  if (chosenVoice) u.voice = chosenVoice;
-  synth.speak(u);
-}
-
-// Queue a single word/phrase after a delay without cancelling ongoing speech
-function speakQueued(text, delay, rate=0.82, pitch=1.0) {
-  setTimeout(() => {
-    if (!voices.length) loadVoices();
-    const u = new SpeechSynthesisUtterance(text);
-    u.rate = rate; u.pitch = pitch; u.volume = 1.0;
-    if (chosenVoice) u.voice = chosenVoice;
-    synth.speak(u);
-  }, delay);
-}
-
-// Natural exercise intro — name first, short energetic cue, then tip snippet
-function speakExercise(ex) {
-  synth.cancel();
-  const intros = [
-    `Alright, let's go — ${ex.name}.`,
-    `Next up, ${ex.name}. Let's do it.`,
-    `${ex.name} — here we go.`,
-    `Time for ${ex.name}. You've got this.`,
-    `${ex.name}, starting now.`,
-  ];
-  const intro = intros[Math.floor(Math.random() * intros.length)];
-  const tipSnip = ex.tip ? ex.tip.split('.')[0] + '.' : '';
-  const full = tipSnip ? `${intro} ${tipSnip}` : intro;
-
-  if (!voices.length) loadVoices();
-  const u = new SpeechSynthesisUtterance(naturalise(full));
-  u.rate = 0.88; u.pitch = 1.0; u.volume = 1.0;
-  if (chosenVoice) u.voice = chosenVoice;
-  synth.speak(u);
-}
-
-// Natural rest announcements
-function speakRest(nextEx) {
-  synth.cancel();
-  const rests = nextEx ? [
-    `Nice work! Rest up. ${nextEx.name} is coming next.`,
-    `Good job. Take a breath — ${nextEx.name} is next.`,
-    `Rest now. Get ready for ${nextEx.name}.`,
-    `Well done! ${nextEx.name} coming up in ten.`,
-  ] : [
-    `Great work! This is your last rest. Finish strong.`,
-    `Almost there! One more exercise to go — rest up.`,
-  ];
-  const line = rests[Math.floor(Math.random() * rests.length)];
-  if (!voices.length) loadVoices();
-  const u = new SpeechSynthesisUtterance(naturalise(line));
-  u.rate = 0.88; u.pitch = 1.0; u.volume = 1.0;
-  if (chosenVoice) u.voice = chosenVoice;
-  synth.speak(u);
-}
-
-// The original 12-exercise classic 7-minute workout order
-const CLASSIC_ORDER_IDS = ['jj','ws','pu','cr','su','sq','td','pl','hk','lu','pu-rot','sp'];
-
-// ══════════════════════════════════
-// MODE
-// ══════════════════════════════════
-function setMode(m) {
-  mode = m;
-  document.getElementById('btn-bw').classList.toggle('active', m==='bodyweight');
-  document.getElementById('btn-db').classList.toggle('active', m==='dumbbell');
-  renderChips();
-}
-
-function setSessionMode(sm) {
-  sessionMode = sm;
-  document.getElementById('btn-random').classList.toggle('active', sm==='random');
-  document.getElementById('btn-classic').classList.toggle('active', sm==='classic');
-  renderChips();
-}
+var eqMode = "bw";
+var sesMode = "rand";
+var session = [];
+var idx = 0;
+var phase = "work";
+var timeLeft = 0;
+var elapsed = 0;
+var totalTime = 0;
+var tmr = null;
+var paused = false;
+var tipOpen = true;
+var cdDone = false;
 
 function getPool() {
-  return mode === 'dumbbell' ? [...BW, ...DB] : [...BW];
+  return eqMode === "db" ? BW.concat(DB) : BW.slice();
+}
+function allEx() { return BW.concat(DB); }
+
+function showScreen(id) {
+  var screens = ["home","workout","done"];
+  for (var i = 0; i < screens.length; i++) {
+    var el = document.getElementById(screens[i]);
+    if (el) el.className = "screen" + (screens[i] === id ? " active" : "");
+  }
 }
 
 function renderChips() {
-  const isClassic = sessionMode === 'classic';
-
-  if (isClassic) {
-    // Show the classic 12 in fixed order
-    const allEx = [...BW, ...DB];
-    const classicList = CLASSIC_ORDER_IDS.map(id => allEx.find(e => e.id === id)).filter(Boolean);
-    document.getElementById('pool-count').textContent = classicList.length;
-    document.getElementById('stat-exercises').textContent = classicList.length;
-    document.getElementById('pool-label').textContent = 'Classic order (fixed)';
-    document.getElementById('chips-wrap').innerHTML = classicList.map((e, i) =>
-      `<span class="chip" style="border-color:rgba(245,166,35,.25);color:var(--accent)">${i+1}. ${e.emoji} ${e.name}</span>`
-    ).join('');
+  var pool, chips = document.getElementById("chips");
+  if (!chips) return;
+  if (sesMode === "classic") {
+    var all = allEx();
+    pool = [];
+    for (var i = 0; i < CLASSIC.length; i++) {
+      for (var j = 0; j < all.length; j++) {
+        if (all[j].id === CLASSIC[i]) { pool.push(all[j]); break; }
+      }
+    }
+    document.getElementById("s-pool").textContent = pool.length;
+    document.getElementById("s-ex").textContent = pool.length;
+    document.getElementById("pool-lbl").textContent = "Classic Order - Fixed";
+    var html = "";
+    for (var k = 0; k < pool.length; k++) {
+      html += '<span class="chip cl">' + (k+1) + ". " + pool[k].name + "</span>";
+    }
+    chips.innerHTML = html;
   } else {
-    const pool = getPool();
-    document.getElementById('pool-count').textContent = pool.length;
-    document.getElementById('stat-exercises').textContent = 12;
-    document.getElementById('pool-label').textContent = 'Exercise pool';
-    document.getElementById('chips-wrap').innerHTML =
-      pool.map(e => `<span class="chip${e.db?' db':''}">${e.emoji} ${e.name}</span>`).join('');
+    pool = getPool();
+    document.getElementById("s-pool").textContent = pool.length;
+    document.getElementById("s-ex").textContent = 12;
+    document.getElementById("pool-lbl").textContent = "Exercise Pool";
+    var html2 = "";
+    for (var m = 0; m < pool.length; m++) {
+      html2 += '<span class="chip' + (pool[m].db ? " db" : "") + '">' + pool[m].name + "</span>";
+    }
+    chips.innerHTML = html2;
   }
 }
 
-// ══════════════════════════════════
-// CLOCK
-// ══════════════════════════════════
-function updateClock() {
-  const n = new Date();
-  document.getElementById('clock').textContent =
-    n.getHours().toString().padStart(2,'0') + ':' + n.getMinutes().toString().padStart(2,'0');
+function fillVSel() {
+  if (!voices.length) return;
+  var sel = document.getElementById("vsel");
+  if (!sel) return;
+  var en = voices.filter(function(v){ return v.lang && v.lang.indexOf("en") === 0; });
+  var html = "";
+  for (var i = 0; i < en.length; i++) {
+    html += '<option value="' + i + '">' + en[i].name + (en[i].localService ? "" : " (online)") + "</option>";
+  }
+  sel.innerHTML = html;
+  sel._v = en;
+  if (cv) {
+    for (var j = 0; j < en.length; j++) {
+      if (en[j].name === cv.name) { sel.value = j; break; }
+    }
+  }
 }
-updateClock();
-setInterval(updateClock, 15000);
+setTimeout(fillVSel, 800);
 
-// ══════════════════════════════════
-// BUILD SESSION
-// ══════════════════════════════════
 function buildSession() {
-  const allEx = [...BW, ...DB];
-  if (sessionMode === 'classic') {
-    session = CLASSIC_ORDER_IDS.map(id => allEx.find(e => e.id === id)).filter(Boolean);
+  if (sesMode === "classic") {
+    var all = allEx();
+    session = [];
+    for (var i = 0; i < CLASSIC.length; i++) {
+      for (var j = 0; j < all.length; j++) {
+        if (all[j].id === CLASSIC[i]) { session.push(all[j]); break; }
+      }
+    }
   } else {
-    const pool = getPool().sort(() => Math.random() - 0.5);
+    var pool = getPool();
+    pool.sort(function(){ return Math.random() - 0.5; });
     session = pool.slice(0, 12);
   }
 }
 
 function calcTotal() {
-  return session.reduce((a, ex, i) => a + ex.dur + (i < session.length - 1 ? 10 : 0), 0);
-}
-
-// ══════════════════════════════════
-// SCREENS
-// ══════════════════════════════════
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-
-function showHome() {
-  clearInterval(timer);
-  synth.cancel();
-  showScreen('home');
-  renderChips();
-}
-
-// ══════════════════════════════════
-// START WORKOUT
-// ══════════════════════════════════
-function startWorkout() {
-  clearInterval(timer);
-  synth.cancel();
-  buildSession();
-  idx = 0;
-  phase = 'work';
-  elapsed = 0;
-  totalTime = calcTotal();
-  paused = false;
-  tipOpen = true;
-  buildDots();
-  // Update session label
-  document.querySelector('.session-label').textContent =
-    sessionMode === 'classic' ? 'Classic Order' : 'Random Session';
-  showScreen('workout');
-  // Intro announcement
-  if (sessionMode === 'classic') {
-    speak("Classic seven-minute workout, starting now. Let's go!", 0.88, 1.0, 1.0);
-  } else {
-    speak("Your random session is ready. Twelve exercises, seven minutes. Let's do this!", 0.88, 1.0, 1.0);
+  var t = 0;
+  for (var i = 0; i < session.length; i++) {
+    t += session[i].d;
+    if (i < session.length - 1) t += 10;
   }
-  // Short delay so intro voice plays before first exercise announcement
-  setTimeout(() => {
-    loadPhase();
-    runTimer();
-  }, 2200);
-
-function quitWorkout() {
-  clearInterval(timer);
-  synth.cancel();
-  showHome();
+  return t;
 }
 
-// ══════════════════════════════════
-// STEP DOTS
-// ══════════════════════════════════
 function buildDots() {
-  document.getElementById('step-dots').innerHTML =
-    session.map((_, i) => `<div class="sdot" id="sd${i}"></div>`).join('');
+  var c = document.getElementById("dots");
+  if (!c) return;
+  var h = "";
+  for (var i = 0; i < session.length; i++) {
+    h += '<div class="dot" id="d' + i + '"></div>';
+  }
+  c.innerHTML = h;
 }
 
 function updateDots() {
-  session.forEach((_, i) => {
-    const el = document.getElementById('sd' + i);
-    if (!el) return;
-    el.className = 'sdot' + (i < idx ? ' done' : i === idx ? ' active' : '');
-  });
+  for (var i = 0; i < session.length; i++) {
+    var el = document.getElementById("d" + i);
+    if (!el) continue;
+    el.className = "dot" + (i < idx ? " done" : i === idx ? " now" : "");
+  }
 }
 
-// ══════════════════════════════════
-// LOAD PHASE
-// ══════════════════════════════════
+function setExDisplay(ex) {
+  document.getElementById("exemoji").textContent = ex.ico;
+  document.getElementById("exname").textContent = ex.name;
+  document.getElementById("tiptxt").textContent = ex.tip || "";
+  document.getElementById("eqtag").style.display = ex.db ? "block" : "none";
+}
+
 function loadPhase() {
-  cdSpoken = false;
-  const ex = session[idx];
-
-  if (phase === 'work') {
-    timeLeft = ex.dur;
-
-    // Badge
-    const badge = document.getElementById('phase-badge');
-    badge.className = 'phase-badge work';
-    badge.innerHTML = '● WORK';
-
-    // Image
-    document.getElementById('ex-emoji-bg').textContent = ex.emoji;
-    const eqTag = document.getElementById('equipment-tag');
-    eqTag.style.display = ex.db ? 'block' : 'none';
-
-    // Name + tip
-    document.getElementById('ex-current-name').textContent = ex.name;
-    document.getElementById('form-tip-text').textContent = ex.tip;
-    document.getElementById('form-tip-bar').classList.toggle('visible', tipOpen);
-
-    // Next preview
+  cdDone = false;
+  var ex = session[idx];
+  var badge = document.getElementById("pbadge");
+  if (phase === "work") {
+    timeLeft = ex.d;
+    badge.className = "pbadge work";
+    badge.textContent = "WORK";
+    setExDisplay(ex);
+    var tb = document.getElementById("tipbar");
+    if (tipOpen) tb.className = "tipbar show"; else tb.className = "tipbar";
+    document.getElementById("exctr").textContent = "Exercise " + (idx+1) + " of " + session.length;
     updateNext();
-
-    // Counter
-    document.getElementById('ex-counter').textContent = `Exercise ${idx+1} of ${session.length}`;
-
-    // Speak naturally
-    speakExercise(ex);
-
+    var intro = ["Alright lets go, ","Next up, ","Time for ","Here we go, "][Math.floor(Math.random()*4)];
+    var tip1 = ex.tip ? ex.tip.split(".")[0] + "." : "";
+    say(intro + ex.name + ". " + tip1);
   } else {
-    // REST
     timeLeft = 10;
-    const badge = document.getElementById('phase-badge');
-    badge.className = 'phase-badge rest';
-    badge.innerHTML = '● REST';
-    document.getElementById('ex-emoji-bg').textContent = '😮‍💨';
-    document.getElementById('equipment-tag').style.display = 'none';
-    document.getElementById('ex-current-name').textContent = 'Rest';
-    document.getElementById('form-tip-bar').classList.remove('visible');
-
+    badge.className = "pbadge rest";
+    badge.textContent = "REST";
+    document.getElementById("exemoji").textContent = "REST";
+    document.getElementById("eqtag").style.display = "none";
+    document.getElementById("exname").textContent = "Rest";
+    document.getElementById("tipbar").className = "tipbar";
     updateNext();
-
-    const nxt = session[idx + 1];
-    speakRest(nxt || null);
+    var nxt = idx + 1 < session.length ? session[idx+1] : null;
+    var rtxt = nxt ? "Good work! Rest up. Next is " + nxt.name + "." : "Great work! Last rest. Finish strong.";
+    say(rtxt);
   }
-
-  updateTimerDisplay();
+  updateTimer();
   updateDots();
   updateProgress();
 }
 
 function updateNext() {
-  const box = document.getElementById('next-ex-box');
-  if (phase === 'work' && idx < session.length - 1) {
-    // Next is REST
-    document.getElementById('next-emoji').textContent = '😮‍💨';
-    document.getElementById('next-name').textContent = 'Rest';
-    document.getElementById('next-duration').textContent = '10 seconds';
-    box.style.display = 'flex';
-  } else if (phase === 'rest' && idx + 1 < session.length) {
-    const nxt = session[idx + 1];
-    document.getElementById('next-emoji').textContent = nxt.emoji;
-    document.getElementById('next-name').textContent = nxt.name;
-    document.getElementById('next-duration').textContent = nxt.dur + ' seconds';
-    box.style.display = 'flex';
+  var box = document.getElementById("nextbox");
+  if (!box) return;
+  if (phase === "work" && idx < session.length - 1) {
+    document.getElementById("nextico").textContent = "REST";
+    document.getElementById("nextname").textContent = "Rest";
+    document.getElementById("nextdur").textContent = "10 seconds";
+    box.style.display = "flex";
+  } else if (phase === "rest" && idx + 1 < session.length) {
+    var n = session[idx+1];
+    document.getElementById("nextico").textContent = n.ico;
+    document.getElementById("nextname").textContent = n.name;
+    document.getElementById("nextdur").textContent = n.d + " seconds";
+    box.style.display = "flex";
   } else {
-    box.style.display = 'none';
+    box.style.display = "none";
   }
 }
 
-// ══════════════════════════════════
-// TIMER
-// ══════════════════════════════════
-function runTimer() {
-  clearInterval(timer);
-  timer = setInterval(tick, 1000);
+function startTmr() {
+  clearInterval(tmr);
+  tmr = setInterval(tick, 1000);
 }
 
 function tick() {
   if (paused) return;
-
-  // 3-second verbal countdown before end of period
-  if (timeLeft === 3 && !cdSpoken) {
-    cdSpoken = true;
-    synth.cancel();
-    speakQueued('Three', 0,    0.80, 1.0);
-    speakQueued('Two',   900,  0.80, 1.0);
-    speakQueued('One',   1800, 0.80, 1.0);
+  if (timeLeft === 3 && !cdDone) {
+    cdDone = true;
+    SY.cancel();
+    sayLater("Three", 0);
+    sayLater("Two", 900);
+    sayLater("One", 1800);
   }
-
   timeLeft--;
   elapsed++;
-  updateTimerDisplay();
+  updateTimer();
   updateProgress();
-
   if (timeLeft <= 0) {
-    // If the 3-2-1 countdown was spoken, wait ~950ms for 'One' to finish
-    // before advance() triggers synth.cancel() in loadPhase()
-    if (cdSpoken) {
-      clearInterval(timer);
-      setTimeout(() => advance(), 950);
+    if (cdDone) {
+      clearInterval(tmr);
+      setTimeout(advance, 950);
     } else {
       advance();
     }
   }
 }
 
-function updateTimerDisplay() {
-  const el = document.getElementById('big-timer');
+function updateTimer() {
+  var el = document.getElementById("bignum");
   el.textContent = timeLeft;
-  el.className = 'big-timer' + (timeLeft <= 3 ? ' warning' : '');
+  el.className = "bignum" + (timeLeft <= 3 ? " red" : "");
 }
 
 function updateProgress() {
-  const pct = Math.min((elapsed / totalTime) * 100, 100);
-  document.getElementById('overall-fill').style.width = pct + '%';
-  const rem = Math.max(totalTime - elapsed, 0);
-  const m = Math.floor(rem / 60);
-  const s = rem % 60;
-  document.getElementById('time-remaining-label').textContent =
-    m + ':' + s.toString().padStart(2,'0') + ' left';
+  var pct = Math.min(elapsed / totalTime * 100, 100);
+  document.getElementById("pfill").style.width = pct + "%";
+  var rem = Math.max(totalTime - elapsed, 0);
+  var m = Math.floor(rem / 60);
+  var s = rem % 60;
+  document.getElementById("timeleft").textContent = m + ":" + (s < 10 ? "0" : "") + s + " left";
 }
 
-// ══════════════════════════════════
-// ADVANCE
-// ══════════════════════════════════
 function advance() {
-  if (phase === 'work') {
-    if (idx < session.length - 1) {
-      phase = 'rest';
-      loadPhase();
-    } else {
-      finish();
-    }
+  if (phase === "work") {
+    if (idx < session.length - 1) { phase = "rest"; loadPhase(); startTmr(); }
+    else finish();
   } else {
     idx++;
-    if (idx < session.length) {
-      phase = 'work';
-      loadPhase();
-    } else {
-      finish();
-    }
+    if (idx < session.length) { phase = "work"; loadPhase(); startTmr(); }
+    else finish();
   }
 }
 
-// ══════════════════════════════════
-// PAUSE
-// ══════════════════════════════════
-function togglePause() {
-  paused = !paused;
-  document.getElementById('btn-pause').textContent = paused ? '▶ Resume' : '⏸ Pause';
-  if (paused) {
-    synth.cancel();
-    speak("Paused. Take a breath whenever you need it.", 0.85, 1.0, 1.0);
-  } else {
-    speak("Okay, let's go! Three, two, one — go!", 0.88, 1.0, 1.0);
-  }
-}
-
-// ══════════════════════════════════
-// TIP TOGGLE
-// ══════════════════════════════════
-function toggleTip() {
-  tipOpen = !tipOpen;
-  document.getElementById('form-tip-bar').classList.toggle('visible', tipOpen);
-  if (tipOpen && phase === 'work') {
-    const ex = session[idx];
-    if (ex && ex.tip) speak(`Here's a tip. ${ex.tip}`, 0.85, 1.0, 0.95);
-  }
-}
-
-// ══════════════════════════════════
-// FINISH
-// ══════════════════════════════════
 function finish() {
-  clearInterval(timer);
-  const finishLines = [
-    "That's a wrap! Seven minutes done. You should be really proud of yourself — amazing effort today.",
-    "Session complete! You gave it everything. Go ahead and stretch out, you've earned it.",
-    "And that's seven minutes! Incredible work. Take a moment to breathe and celebrate — you crushed it.",
-  ];
-  speak(finishLines[Math.floor(Math.random() * finishLines.length)], 0.87, 1.0, 1.0);
-  document.getElementById('done-sets').textContent = session.length;
-  document.getElementById('done-cal').textContent = '~' + Math.round(session.length * 5.5 + 20);
-  setTimeout(() => showScreen('done'), 800);
+  clearInterval(tmr);
+  say("That is a wrap! Seven minutes done. Amazing effort today.", 0.87, 1.0);
+  document.getElementById("d-sets").textContent = session.length;
+  document.getElementById("d-cal").textContent = String(Math.round(session.length * 5.5 + 20));
+  setTimeout(function(){ showScreen("done"); }, 800);
 }
 
-// ══════════════════════════════════
-// VOICE PICKER
-// ══════════════════════════════════
-function populateVoiceSelect() {
-  if (!voices.length) loadVoices();
-  if (!voices.length) return;
-
-  const sel = document.getElementById('voice-select');
-  if (!sel) return;
-  const enVoices = voices.filter(v => v.lang && v.lang.startsWith('en'));
-  sel.innerHTML = enVoices.map((v, i) =>
-    `<option value="${i}">${v.name} (${v.lang})${v.localService ? '' : ' ✨'}</option>`
-  ).join('');
-
-  // Pre-select the chosen voice
-  if (chosenVoice) {
-    const idx = enVoices.findIndex(v => v.name === chosenVoice.name);
-    if (idx >= 0) sel.value = idx;
-  }
-  // Store en voices for lookup
-  sel._voices = enVoices;
+function startWorkout() {
+  clearInterval(tmr);
+  try { SY.cancel(); } catch(e) {}
+  buildSession();
+  idx = 0; phase = "work"; elapsed = 0; paused = false; tipOpen = true;
+  totalTime = calcTotal();
+  buildDots();
+  document.getElementById("wlbl").textContent = sesMode === "classic" ? "Classic Order" : "Random Session";
+  document.getElementById("btn-pause").textContent = "Pause";
+  showScreen("workout");
+  var intro = sesMode === "classic"
+    ? "Classic seven minute workout starting now. Lets go!"
+    : "Your random session is ready. Twelve exercises, seven minutes. Lets do this!";
+  say(intro, 0.88, 1.0);
+  setTimeout(function(){ loadPhase(); startTmr(); }, 2200);
 }
 
-function setVoice(idx) {
-  const sel = document.getElementById('voice-select');
-  if (!sel || !sel._voices) return;
-  chosenVoice = sel._voices[parseInt(idx)] || chosenVoice;
+function goHome() {
+  clearInterval(tmr);
+  try { SY.cancel(); } catch(e) {}
+  showScreen("home");
+  renderChips();
 }
 
-function testVoice() {
-  const testPhrases = [
-    "Hey there! Let's get this workout started. You've got seven minutes — let's make them count.",
-    "Great job! Rest now, and get ready for the next exercise.",
-    "Three, two, one — go!",
-  ];
-  const t = testPhrases[Math.floor(Math.random() * testPhrases.length)];
-  speak(t, 0.88, 1.0, 1.0);
-}
-
-// Populate after voices load
-synth.addEventListener('voiceschanged', () => {
-  loadVoices();
-  populateVoiceSelect();
-});
-setTimeout(populateVoiceSelect, 500); // fallback for browsers that load voices synchronously
-
-// ══════════════════════════════════
-// INIT
-// ══════════════════════════════════
-
-// ══════════════════════════════════
-// IOS-SAFE EVENT WIRING
-// ══════════════════════════════════
+// BUTTON WIRING - touchend only, most reliable on iOS
 function wire(id, fn) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.addEventListener('click', function(e) { e.preventDefault(); fn(); });
-  el.addEventListener('touchend', function(e) { e.preventDefault(); fn(); });
+  var el = document.getElementById(id);
+  if (!el) { return; }
+  el.addEventListener("touchend", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    fn();
+  }, false);
+  el.addEventListener("click", function(e) {
+    e.preventDefault();
+    fn();
+  }, false);
 }
-wire('btn-bw',         () => setMode('bodyweight'));
-wire('btn-db',         () => setMode('dumbbell'));
-wire('btn-random',     () => setSessionMode('random'));
-wire('btn-classic',    () => setSessionMode('classic'));
-wire('btn-start',      () => startWorkout());
-wire('btn-quit',       () => quitWorkout());
-wire('btn-pause',      () => togglePause());
-wire('btn-tip',        () => toggleTip());
-wire('btn-again',      () => startWorkout());
-wire('btn-home',       () => showHome());
-wire('test-voice-btn', () => testVoice());
-const vsel = document.getElementById('voice-select');
-if (vsel) vsel.addEventListener('change', function() { setVoice(this.value); });
+
+wire("btn-bw", function() {
+  eqMode = "bw";
+  document.getElementById("btn-bw").className = "tog on";
+  document.getElementById("btn-db").className = "tog";
+  renderChips();
+});
+wire("btn-db", function() {
+  eqMode = "db";
+  document.getElementById("btn-db").className = "tog on";
+  document.getElementById("btn-bw").className = "tog";
+  renderChips();
+});
+wire("btn-rand", function() {
+  sesMode = "rand";
+  document.getElementById("btn-rand").className = "tog on";
+  document.getElementById("btn-classic").className = "tog";
+  renderChips();
+});
+wire("btn-classic", function() {
+  sesMode = "classic";
+  document.getElementById("btn-classic").className = "tog on";
+  document.getElementById("btn-rand").className = "tog";
+  renderChips();
+});
+wire("btn-start", function() { startWorkout(); });
+wire("btn-again", function() { startWorkout(); });
+wire("btn-quit",  function() { goHome(); });
+wire("btn-back",  function() { goHome(); });
+wire("btn-pause", function() {
+  paused = !paused;
+  document.getElementById("btn-pause").textContent = paused ? "Resume" : "Pause";
+  if (paused) { try { SY.cancel(); } catch(e) {} say("Paused. Take a breath."); }
+  else say("Okay lets go. Three, two, one, go!");
+});
+wire("btn-tip", function() {
+  tipOpen = !tipOpen;
+  var tb = document.getElementById("tipbar");
+  tb.className = "tipbar" + (tipOpen ? " show" : "");
+  if (tipOpen && phase === "work" && session[idx]) {
+    say("Form tip. " + session[idx].tip);
+  }
+});
+wire("btn-vtest", function() {
+  say("Hey there! Lets get this workout started. Seven minutes, lets make them count.");
+});
+
+document.getElementById("vsel").addEventListener("change", function() {
+  if (this._v) cv = this._v[parseInt(this.value)] || cv;
+});
 
 renderChips();
-
-
 </script>
 </body>
 </html>
